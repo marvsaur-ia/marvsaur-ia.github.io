@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MarvSaur-IA Data Services · Investigación y consultas en Perú. RENIEC, SUNAT, antecedentes, vehículos, SUNARP y más.">
+<title>MarvSaur-IA · Data Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#040810;--surface:#080f1e;--surface2:#0c1628;--cyan:#00e5ff;--cyan2:#00b8d4;--green:#00ff88;--purple:#b44fff;--text:#c8d8f0;--muted:#4a6080;--border:#0e1f38;--font-h:'Orbitron',monospace;--font-b:'Rajdhani',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;overflow-x:hidden;cursor:crosshair}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.015) 2px,rgba(0,229,255,.015) 4px);pointer-events:none;z-index:9999}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:rgba(4,8,16,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,229,255,.1)}
+.nav-logo{font-family:var(--font-h);font-size:clamp(.9rem,2.5vw,1.1rem);font-weight:900;color:var(--cyan);text-shadow:0 0 20px rgba(0,229,255,.6);letter-spacing:.08em}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
+@media(max-width:600px){.nav-links{display:none}}
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;padding:100px 5vw 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 50%,rgba(0,229,255,.06) 0%,transparent 70%),radial-gradient(ellipse 50% 80% at 20% 80%,rgba(180,79,255,.08) 0%,transparent 60%)}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;max-width:1100px;width:100%}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;text-align:center}.hero-img{order:-1}}
+.hero-tag{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,229,255,.3);display:inline-block;padding:4px 14px;border-radius:2px;margin-bottom:18px;animation:fadeup .6s ease both}
+.hero-title{font-family:var(--font-h);font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.05;letter-spacing:.04em;animation:fadeup .7s ease .1s both}
+.hero-title .l1{color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.5)}
+.hero-title .l2{color:#fff}
+.hero-title .l3{background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{margin-top:18px;font-size:clamp(1rem,2.5vw,1.15rem);color:var(--muted);line-height:1.6;font-weight:500;animation:fadeup .8s ease .2s both}
+.hero-sub span{color:var(--text);font-weight:700}
+.hero-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;animation:fadeup .9s ease .3s both}
+@media(max-width:768px){.hero-cta{justify-content:center}}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--cyan2),var(--cyan));color:#000;font-family:var(--font-h);font-size:.85rem;font-weight:700;letter-spacing:.1em;padding:14px 28px;border-radius:4px;text-decoration:none;transition:all .25s;box-shadow:0 0 24px rgba(0,229,255,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,229,255,.55)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--cyan);font-family:var(--font-h);font-size:.85rem;font-weight:700;letter-spacing:.1em;padding:13px 28px;border-radius:4px;border:1.5px solid rgba(0,229,255,.4);text-decoration:none;transition:all .25s}
+.btn-secondary:hover{border-color:var(--cyan);background:rgba(0,229,255,.06)}
+.hero-img{position:relative;animation:fadeup .8s ease .15s both}
+.hero-img img{width:100%;max-width:480px;border-radius:12px;display:block;margin:0 auto;filter:drop-shadow(0 0 30px rgba(0,229,255,.2));border:1px solid rgba(0,229,255,.15)}
+.ticker-wrap{background:rgba(0,229,255,.05);border-top:1px solid rgba(0,229,255,.15);border-bottom:1px solid rgba(0,229,255,.15);overflow:hidden;padding:10px 0;position:relative;z-index:1}
+.ticker{display:flex;gap:60px;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker span{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.ticker span::before{content:'◆  ';color:var(--purple)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+section{position:relative;z-index:1;padding:80px 5vw;max-width:1100px;margin:0 auto}
+.section-tag{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--purple);margin-bottom:8px;font-weight:700}
+.section-title{font-family:var(--font-h);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#fff;letter-spacing:.04em;margin-bottom:12px}
+.section-title span{color:var(--cyan)}
+.section-sub{color:var(--muted);font-size:1rem;max-width:560px;line-height:1.7;margin-bottom:48px}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.service-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:22px;transition:all .25s;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.service-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-icon{font-size:1.8rem;margin-bottom:12px}
+.service-name{font-family:var(--font-h);font-size:.85rem;color:var(--cyan);letter-spacing:.08em;margin-bottom:8px}
+.service-items{list-style:none;color:var(--muted);font-size:.88rem;line-height:1.8}
+.service-items li::before{content:'›  ';color:var(--cyan)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;counter-reset:steps}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 22px;position:relative;counter-increment:steps}
+.step-card::before{content:'0' counter(steps);font-family:var(--font-h);font-size:3rem;font-weight:900;color:rgba(0,229,255,.06);position:absolute;top:12px;right:18px;line-height:1}
+.step-num{font-family:var(--font-h);font-size:.75rem;color:var(--cyan);letter-spacing:.2em;margin-bottom:10px}
+.step-title{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:8px}
+.step-desc{color:var(--muted);font-size:.88rem;line-height:1.6}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:28px 24px;text-align:center;transition:all .25s;position:relative}
+.price-card.featured{border-color:rgba(0,229,255,.4);background:linear-gradient(135deg,#0c1628,#0a1220);box-shadow:0 0 40px rgba(0,229,255,.1)}
+.price-card.featured::after{content:'MÁS POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--cyan2),var(--cyan));color:#000;font-family:var(--font-h);font-size:.62rem;font-weight:700;letter-spacing:.15em;padding:3px 14px;border-radius:20px}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.price-name{font-family:var(--font-h);font-size:.85rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+.price-amount{font-family:var(--font-h);font-size:2.8rem;font-weight:900;color:var(--cyan);line-height:1;margin-bottom:4px;text-shadow:0 0 20px rgba(0,229,255,.4)}
+.price-amount small{font-size:1rem;color:var(--muted)}
+.price-note{font-size:.8rem;color:var(--muted);margin-bottom:22px}
+.price-features{list-style:none;text-align:left;margin-bottom:28px}
+.price-features li{padding:7px 0;border-bottom:1px solid var(--border);font-size:.88rem;color:var(--text);display:flex;align-items:center;gap:10px}
+.price-features li:last-child{border:none}
+.price-features .ok{color:var(--green);font-size:.9rem}
+.price-btn{display:block;width:100%;padding:13px;background:transparent;border:1.5px solid rgba(0,229,255,.35);border-radius:6px;color:var(--cyan);font-family:var(--font-h);font-size:.8rem;letter-spacing:.1em;text-decoration:none;text-align:center;font-weight:700;transition:all .22s;cursor:pointer}
+.price-btn:hover,.price-card.featured .price-btn{background:linear-gradient(135deg,var(--cyan2),var(--cyan));color:#000;border-color:transparent;box-shadow:0 4px 20px rgba(0,229,255,.35)}
+.contact-box{background:linear-gradient(135deg,#0c1628,#080f1e);border:1px solid rgba(0,229,255,.2);border-radius:16px;padding:50px 40px;text-align:center;position:relative;overflow:hidden}
+.contact-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at center,rgba(0,229,255,.04) 0%,transparent 60%);pointer-events:none}
+.contact-box h2{font-family:var(--font-h);font-size:clamp(1.6rem,4vw,2.2rem);color:#fff;margin-bottom:12px;letter-spacing:.04em}
+.contact-box h2 span{color:var(--cyan)}
+.contact-box p{color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto 32px;line-height:1.7}
+.tg-btn{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff;font-family:var(--font-h);font-size:1rem;font-weight:700;letter-spacing:.1em;padding:18px 40px;border-radius:8px;text-decoration:none;transition:all .25s;box-shadow:0 4px 24px rgba(0,180,216,.35)}
+.tg-btn:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(0,180,216,.5)}
+.tg-btn svg{width:24px;height:24px;fill:white}
+.contact-note{margin-top:20px;font-size:.8rem;color:var(--muted);letter-spacing:.1em}
+.contact-note span{color:var(--green)}
+footer{border-top:1px solid var(--border);padding:30px 5vw;text-align:center;position:relative;z-index:1}
+footer p{color:var(--muted);font-size:.82rem;letter-spacing:.08em}
+.brand{font-family:var(--font-h);color:var(--cyan);font-size:.9rem;margin-bottom:8px}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:480px){section{padding:60px 4vw}.contact-box{padding:36px 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MARV<span>SAUR</span>-IA</div>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#precios">Precios</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<section id="hero" style="max-width:100%;padding-top:0">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">🇵🇪 Data Intelligence · Perú</div>
+      <h1 class="hero-title">
+        <div class="l1">MARV</div>
+        <div class="l2">SAUR-IA</div>
+        <div class="l3">DATA SERVICES</div>
+      </h1>
+      <p class="hero-sub">Consultas e investigaciones con acceso a fuentes que <span>otros no tienen.</span><br>Rápido, discreto y solo para Perú 🇵🇪</p>
+      <div class="hero-cta">
+        <a href="https://t.me/MarvSaurIA" target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 14.447l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.631.139z"/></svg>
+          Contactar ahora
+        </a>
+        <a href="#servicios" class="btn-secondary">Ver servicios</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <a href="https://ibb.co/Q2BLtKF"><img src="https://i.ibb.co/2D2xHk7/asd.png" alt="asd" border="0"></a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>RENIEC</span><span>SUNAT</span><span>SUNARP</span><span>Antecedentes</span><span>Vehículos</span><span>Migraciones</span><span>SEEKER</span><span>Financiero</span><span>Familia</span><span>Descansos Médicos</span><span>Telefonía</span><span>Estudios</span>
+    <span>RENIEC</span><span>SUNAT</span><span>SUNARP</span><span>Antecedentes</span><span>Vehículos</span><span>Migraciones</span><span>SEEKER</span><span>Financiero</span><span>Familia</span><span>Descansos Médicos</span><span>Telefonía</span><span>Estudios</span>
+  </div>
+</div>
+
+<section id="servicios">
+  <div class="section-tag">// Qué puedo investigar</div>
+  <h2 class="section-title">Acceso a <span>fuentes reales</span></h2>
+  <p class="section-sub">Consultas que van más allá de lo que cualquiera puede buscar en Google. Datos precisos, entregados rápido.</p>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon">🕵️</div><div class="service-name">Identidad</div><ul class="service-items"><li>RENIEC por nombre/DNI</li><li>C4 por nombres/apellidos</li><li>Certificado de inscripción (PDF)</li><li>DNI Digital (ambas caras)</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">📱</div><div class="service-name">Telefonía</div><ul class="service-items"><li>Titular de línea</li><li>Bloqueo IMEI + línea</li><li>Historial de operador</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">📜</div><div class="service-name">Antecedentes</div><ul class="service-items"><li>Penales · Judiciales · Policiales</li><li>RQ policial</li><li>Denuncias activas</li><li>Medidas de protección</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">🚗</div><div class="service-name">Vehículos</div><ul class="service-items"><li>Propietario por placa</li><li>Historial vehicular</li><li>SOAT y multas</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">🏢</div><div class="service-name">Empresas</div><ul class="service-items"><li>SUNAT / RUC completo</li><li>SUNARP — propiedades</li><li>Representantes legales</li><li>Actas y registros</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">👥</div><div class="service-name">Familia</div><ul class="service-items"><li>Árbol genealógico virtual</li><li>Integrantes de familia</li><li>Vínculos y relaciones</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">🏥</div><div class="service-name">Salud y Seguro</div><ul class="service-items"><li>Descansos médicos</li><li>Recetas</li><li>Seguro de salud</li></ul></div>
+    <div class="service-card reveal"><div class="service-icon">🎯</div><div class="service-name">Avanzado</div><ul class="service-items"><li>SEEKER · Localización</li><li>Registros de migraciones</li><li>Financieros / deudas</li><li>Estudios y grados</li></ul></div>
+  </div>
+</section>
+
+<section id="proceso" style="background:linear-gradient(180deg,transparent,rgba(0,229,255,.02),transparent)">
+  <div class="section-tag">// Cómo funciona</div>
+  <h2 class="section-title">Simple y <span>discreto</span></h2>
+  <p class="section-sub">Sin burocracia. Sin esperas innecesarias. Todo por Telegram.</p>
+  <div class="steps">
+    <div class="step-card reveal"><div class="step-num">PASO 01</div><div class="step-title">Escríbeme</div><p class="step-desc">Contáctame por Telegram con lo que necesitas. Te respondo rápido.</p></div>
+    <div class="step-card reveal"><div class="step-num">PASO 02</div><div class="step-title">Cotización</div><p class="step-desc">Te digo el costo según la consulta. Precio justo, sin sorpresas.</p></div>
+    <div class="step-card reveal"><div class="step-num">PASO 03</div><div class="step-title">Pago</div><p class="step-desc">Yape, Plin o transferencia. Fácil y rápido desde Perú.</p></div>
+    <div class="step-card reveal"><div class="step-num">PASO 04</div><div class="step-title">Entrega</div><p class="step-desc">Recibes el resultado directo en Telegram. Discreto y documentado.</p></div>
+  </div>
+</section>
+
+<section id="precios">
+  <div class="section-tag">// Planes</div>
+  <h2 class="section-title">Consulta <span>los precios</span></h2>
+  <p class="section-sub">Los precios varían según el tipo de consulta. Escríbeme y te doy una cotización al instante.</p>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-name">Consulta Simple</div>
+      <div class="price-amount"><small>desde</small> S/5</div>
+      <div class="price-note">por consulta</div>
+      <ul class="price-features"><li><span class="ok">✓</span>RENIEC básico</li><li><span class="ok">✓</span>RUC / SUNAT</li><li><span class="ok">✓</span>Placa vehicular</li><li><span class="ok">✓</span>Entrega en minutos</li></ul>
+      <a href="https://t.me/MarvSaurIA" target="_blank" class="price-btn">Consultar precio</a>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-name">Investigación Completa</div>
+      <div class="price-amount"><small>desde</small> S/20</div>
+      <div class="price-note">por persona / caso</div>
+      <ul class="price-features"><li><span class="ok">✓</span>Perfil completo</li><li><span class="ok">✓</span>Antecedentes + familia</li><li><span class="ok">✓</span>Propiedades + vehículos</li><li><span class="ok">✓</span>Financiero + registros</li><li><span class="ok">✓</span>Entrega documentada</li></ul>
+      <a href="https://t.me/MarvSaurIA" target="_blank" class="price-btn">Consultar precio</a>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-name">Grupo VIP</div>
+      <div class="price-amount">💎</div>
+      <div class="price-note">acceso mensual</div>
+      <ul class="price-features"><li><span class="ok">✓</span>Métodos exclusivos</li><li><span class="ok">✓</span>Programación + Bins</li><li><span class="ok">✓</span>Termux + herramientas</li><li><span class="ok">✓</span>Actualizaciones constantes</li></ul>
+      <a href="https://t.me/MarvSaurIA" target="_blank" class="price-btn">Consultar acceso</a>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" style="padding-bottom:100px">
+  <div class="contact-box reveal">
+    <h2>¿Listo para <span>comenzar</span>?</h2>
+    <p>Escríbeme por Telegram. Respondo rápido, trabajo con discreción y entrego resultados reales.</p>
+    <a href="https://t.me/MarvSaurIA" target="_blank" class="tg-btn">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 14.447l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.631.139z"/></svg>
+      @MarvSaur-IA en Telegram
+    </a>
+    <p class="contact-note">Solo para Perú 🇵🇪 · <span>Respuesta en menos de 1 hora</span></p>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">MARVSAUR-IA</div>
+  <p>Data Services · Lima, Perú 🇵🇪</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
